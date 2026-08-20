@@ -27,13 +27,11 @@ jobs:
 
       - name: Install backend dependencies
         working-directory: backend
-        run: |
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
 
       - name: Check Flask application
         working-directory: backend
-        run: |
-          python -m py_compile app.py
+        run: python -m py_compile app.py
 
 
   automated-tests:
@@ -52,16 +50,13 @@ jobs:
 
       - name: Install backend dependencies
         working-directory: backend
-        run: |
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
 
       - name: Install pytest
-        run: |
-          pip install pytest
+        run: pip install pytest
 
       - name: Run backend tests
-        run: |
-          pytest tests/test_backend.py -v
+        run: pytest tests/test_backend.py -v
 
 
   frontend-build:
@@ -72,6 +67,9 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
 
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -79,28 +77,24 @@ jobs:
 
       - name: Install frontend dependencies
         working-directory: frontend
-        run: |
-          npm install
+        run: npm install
 
       - name: Build frontend
         working-directory: frontend
-        run: |
-          npm run build
+        run: npm run build
 
 
   docker-build:
     name: Docker Build
+    runs-on: ubuntu-latest
     needs:
       - backend-check
       - automated-tests
       - frontend-build
-
-    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
 
       - name: Build Docker containers
-        run: |
-          docker compose build
+        run: docker compose build
